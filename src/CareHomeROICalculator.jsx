@@ -386,12 +386,6 @@ export default function CareHomeROICalculator() {
         <div style={{ fontSize: 26, fontWeight: 800, marginTop: 4, lineHeight: 1.15 }}>
           Care Home P&amp;L ROI Calculator
         </div>
-        <div style={{ fontSize: 13.5, opacity: 0.9, marginTop: 8, maxWidth: 760, lineHeight: 1.5 }}>
-          The care home&rsquo;s own gross retained revenue, before margin. This is not NHS or
-          system savings. Profit impact exceeds gross revenue because of the home&rsquo;s high
-          fixed-cost base (operating leverage): once core staffing and overheads are covered, a
-          retained or refilled bed largely drops through to operating profit.
-        </div>
       </div>
 
       <div style={{ padding: 24, maxWidth: 1180, margin: "0 auto" }}>
