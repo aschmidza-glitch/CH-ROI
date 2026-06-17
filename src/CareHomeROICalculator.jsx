@@ -21,9 +21,6 @@ import {
 
 /*
   Whzan Care Home P&L ROI Calculator
-  Scope: the care home's OWN gross retained revenue, before margin. Not NHS / system savings.
-  Evidence base: Health Foundation IAU 2019; Forder & Fernandez 2011; AHSN NENC / HealthCall / Sefton CHIP.
-  All defaults labelled inline with source and a reliability flag.
 */
 
 // ---------- Brand ----------
