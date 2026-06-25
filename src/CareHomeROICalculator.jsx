@@ -21,6 +21,9 @@ import {
 
 /*
   Whzan Care Home P&L ROI Calculator
+  Scope: the care home's OWN gross retained revenue, before margin. Not NHS / system savings.
+  Evidence base: Health Foundation IAU 2019; Forder & Fernandez 2011; AHSN NENC / HealthCall / Sefton CHIP.
+  All defaults labelled inline with source and a reliability flag.
 */
 
 // ---------- Brand ----------
@@ -348,16 +351,13 @@ export default function CareHomeROICalculator() {
   }, [p.beds, p.occupancy, p.fee, p.admissionRate, p.tenancyLossRate, p.horizonYears, selectedEffect, bandHighEffect, tenureLow, tenureCentral, tenureHigh]);
 
   // Illustrative clinical activity (context only, does NOT feed the price/ROI).
-  // A&E and admission rates: Health Foundation IAU 2019, Table 2. Ambulance: Hancock 2017 (separate, older).
+  // A&E and admission rates: Health Foundation IAU 2019, Table 2.
   const aeRate = careType === "residential" ? 1.12 : careType === "nursing" ? 0.85 : 0.98;
   const aeAdmitPct = careType === "residential" ? 60 : careType === "nursing" ? 65 : 62;
-  const ambulanceRate = 0.51;
   const aeAttendancesYr = r.occupiedBeds * aeRate;
-  const ambulanceYr = r.occupiedBeds * ambulanceRate;
   const activityData = [
     { name: "A&E attendances", value: Math.round(aeAttendancesYr * 10) / 10, color: C.blue3 },
     { name: "Emergency admissions", value: Math.round(r.admissionsPerYear * 10) / 10, color: C.blue },
-    { name: "Ambulance call-outs", value: Math.round(ambulanceYr * 10) / 10, color: C.purple },
   ];
 
   // ---------- UI ----------
@@ -385,6 +385,12 @@ export default function CareHomeROICalculator() {
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, marginTop: 4, lineHeight: 1.15 }}>
           Care Home P&amp;L ROI Calculator
+        </div>
+        <div style={{ fontSize: 13.5, opacity: 0.9, marginTop: 8, maxWidth: 760, lineHeight: 1.5 }}>
+          The care home&rsquo;s own gross retained revenue, before margin. This is not NHS or
+          system savings. Profit impact exceeds gross revenue because of the home&rsquo;s high
+          fixed-cost base (operating leverage): once core staffing and overheads are covered, a
+          retained or refilled bed largely drops through to operating profit.
         </div>
       </div>
 
@@ -691,7 +697,6 @@ export default function CareHomeROICalculator() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 16 }}>
                 <ActivityTile color={C.blue3} value={num1(aeAttendancesYr)} label={"A&E attendances / yr (x " + aeRate.toFixed(2) + ")"} />
                 <ActivityTile color={C.blue} value={num1(r.admissionsPerYear)} label={"Emergency admissions / yr (x " + num2(p.admissionRate) + ")"} />
-                <ActivityTile color={C.purple} value={num1(ambulanceYr)} label={"Ambulance call-outs / yr (x " + ambulanceRate.toFixed(2) + ")"} />
               </div>
               <div style={{ height: 200 }}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -713,8 +718,6 @@ export default function CareHomeROICalculator() {
                 from {careType === "blended" ? "care" : careType} homes result in an admission (IAU 2019), and some
                 admissions arrive without an A&E visit. Residential homes run higher on both measures than nursing
                 (1.12 vs 0.85 A&E; 0.77 vs 0.63 admissions). <Flag kind="green" /> A&E and admissions: IAU 2019, Table 2.
-                {" "}<Flag kind="amber" /> Ambulance call-outs: Hancock 2017 (0.51/resident/yr), a separate, older blended
-                figure, not from the IAU report and not split by care type.
               </div>
             </div>
 
