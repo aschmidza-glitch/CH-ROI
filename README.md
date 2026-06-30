@@ -1,54 +1,45 @@
-# Whzan Care Home ROI Calculator
+# Whzan Care Home P&L ROI Calculator
 
-A self-contained React calculator for the care home's own gross retained revenue (before margin),
-built on the Health Foundation IAU 2019 evidence base. Vercel-deployable and embeddable in monday.com.
+Single-page React (Vite) app. Deployed to Vercel at ch-roi.vercel.app.
 
-## Run locally
-
-Requires Node.js 18+.
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the localhost URL it prints.
-
-## Build
+## Production build
 
 ```bash
-npm run build      # outputs to dist/
-npm run preview    # serves the production build locally to check it
+npm run build      # outputs to /dist
+npm run preview    # serve the built /dist locally
 ```
 
-## Deploy to Vercel
+## Deployment (Vercel)
 
-### Option A: GitHub-connected (recommended, auto-redeploys)
+Vercel auto-detects Vite. Settings if you need them:
 
-1. Push this folder to a new GitHub repo.
-2. On vercel.com: Add New... > Project, import the repo.
-3. Vercel auto-detects Vite. Leave defaults (build `npm run build`, output `dist`).
-4. Deploy. You get a URL like `https://carehome-roi.vercel.app`.
-5. Every future `git push` redeploys automatically.
+- Framework preset: **Vite**
+- Build command: `npm run build`
+- Output directory: `dist`
+- Install command: `npm install`
 
-### Option B: Vercel CLI
+## Structure
 
-```bash
-npm install -g vercel
-vercel          # follow prompts, accept defaults
-vercel --prod   # production URL
-```
+- `src/CareHomeROICalculator.jsx` — the calculator (all logic and UI)
+- `src/App.jsx` — renders the calculator
+- `src/main.jsx` — React entry point
+- `src/index.css` — full-height layout
 
-## Embed in monday.com
+## Embedding in Monday.com
 
-1. Open the target dashboard (or create one from a board's top tabs: + > Dashboard).
-2. Click "Add Widget" > "see more" > "Embed Everything".
-3. Paste your Vercel URL into the field in the right-hand pane.
-4. Size the widget; give it a wide, deep tile as the calculator is tall.
+The app runs full-page and can be embedded via iframe using the Vercel URL.
 
-## Notes
+## Calculation basis (summary)
 
-- Inputs are session-only; nothing is saved server-side, so each viewer gets a fresh calculator.
-- The illustrative clinical activity panel (A&E, admissions, ambulance) is context only and does
-  not affect the price or ROI.
-- Brand colours and evidence sourcing are baked into the component.
+Headline is the care home's own **gross retained revenue**, valued on a **void-cycle** basis:
+each prevented permanent loss saves one bed-refill cycle (void weeks x weekly fee + average
+refill cost). Placement loss on admission is set at 20% (in-hospital death ~12% plus a survivor
+non-return increment ~8pp). Effect size is locked at the central 22%. Whzan price is locked at
+£5.00/bed/month, £4.50 at 500+ beds. See the in-app source notes for full citations.
